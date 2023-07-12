@@ -1,20 +1,18 @@
-// path module is used to select any file's path anywhere
-
+// interacting with filesystem
 const { log } = require("console");
-const path = require("path");
+const { readFileSync, writeFileSync, read } = require("fs");
 
-// path separator
-//console.log(path.sep);
+// blocking methods readFileSync, writeFileSync
 
-// joining paths
-const filePath = path.join("/content", "subfolder", "test.txt");
-//console.log(filePath);
+//// reading a file
+const first = readFileSync("./content/first.txt", "utf8");
+const second = readFileSync("./content/second.txt", "utf8");
 
-// getting the base name
-const base = path.basename(filePath);
-//console.log(base);
+log(first, second);
 
-// getting an absolute path
-const absolute = path.resolve(__dirname, "content", "subfolder", "test.txt");
-
-console.log("The abso == ", absolute, " end");
+// creating a new file
+writeFileSync(
+  "./content/result-sync.text",
+  `Here is the result : ${first}, ${second}`,
+  { flag: "a" }
+);
