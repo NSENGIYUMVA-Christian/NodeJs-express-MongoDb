@@ -1,18 +1,30 @@
 // interacting with filesystem
 const { log } = require("console");
-const { readFileSync, writeFileSync, read } = require("fs");
+const { readFile, writeFile } = require("fs");
 
-// blocking methods readFileSync, writeFileSync
-
-//// reading a file
-const first = readFileSync("./content/first.txt", "utf8");
-const second = readFileSync("./content/second.txt", "utf8");
-
-log(first, second);
-
-// creating a new file
-writeFileSync(
-  "./content/result-sync.text",
-  `Here is the result : ${first}, ${second}`,
-  { flag: "a" }
-);
+// non-blocking methods readFile, writeFile
+readFile("./content/first.txt", "utf8", (err, result) => {
+  if (err) {
+    log(err);
+    return;
+  }
+  const first = result;
+  readFile("./content/second.txt", "utf8", (err, result) => {
+    if (err) {
+      log(err);
+      return;
+    }
+    const second = result;
+    writeFile(
+      "./content/result-async.txt",
+      `Here is the result : ${first}, ${second}`,
+      (err, result) => {
+        if (err) {
+          log(err);
+          return;
+        }
+        log(result);
+      }
+    );
+  });
+});
