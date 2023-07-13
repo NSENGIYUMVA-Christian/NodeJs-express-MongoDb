@@ -1,0 +1,24 @@
+{
+  "name": "nodejs-express-practices",
+  "version": "1.0.0",
+  "description": "",
+  "main": "10-fs-sync.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev":"nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NSENGIYUMVA-Christian/NodeJs-express-practices.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NSENGIYUMVA-Christian/NodeJs-express-practices/issues"
+  },
+  "homepage": "https://github.com/NSENGIYUMVA-Christian/NodeJs-express-practices#readme",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
