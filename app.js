@@ -1,27 +1,19 @@
 const { log } = require("console");
-const http = require("http");
+const { readFile, writeFile } = require("fs");
 
-const server = http.createServer((req, res) => {
-  // home
-  if (req.url === "/") {
-    res.end("home page");
-    return;
-  }
-  // about
-  if (req.url === "/about") {
-    //blocking code
-    for (let i = 0; i < 200; i++) {
-      for (let j = 0; j < 1000; j++) {
-        log(`${i} and ${j}`);
+const getText = (path) => {
+  return new Promise((resolve, reject) => {
+    readFile(path, "utf8", (err, data) => {
+      // handle error
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
       }
-    }
-    res.end("about page");
-    return;
-  }
-  //error
-  res.end("error page");
-});
+    });
+  });
+};
 
-server.listen(5000, () => {
-  log("listening to port 500");
-});
+getText("./content/first.txt")
+  .then((res) => log(res))
+  .catch((err) => log(err));
