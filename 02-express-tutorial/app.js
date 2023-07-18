@@ -1,5 +1,9 @@
 const { log } = require("console");
 const http = require("http");
+const { readFileSync } = require("fs");
+
+//get all files
+const home = readFileSync("./index.html", "utf8");
 
 const server = http.createServer((req, res) => {
   const url = req.url;
@@ -7,7 +11,7 @@ const server = http.createServer((req, res) => {
   // home page
   if (url === "/") {
     res.writeHead(200, { "content-type": "text/html" });
-    res.write("<h1>Home page bro</p>");
+    res.write(home);
     res.end();
   }
   //about page
