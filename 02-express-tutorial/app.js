@@ -1,27 +1,23 @@
 const express = require("express");
+const morgan = require("morgan");
 const logger = require("./logger");
 const authorize = require("./authorize");
 const app = express();
 
-// middle ware
-//req=>middleware=>res
-
-// passing multiple middleware
-app.use([logger, authorize]);
+app.use(morgan("tiny"));
 
 app.get("/", (req, res) => {
-  console.log(req.user);
-  const { name } = req.user;
-  res.send(`Welcome back ${name}`);
+  return res.send(`Welcome Home`);
 });
 app.get("/about", (req, res) => {
-  res.send("About");
+  return res.send("About");
 });
+// passing multiple middle ware to a specific route
 app.get("/api/products", (req, res) => {
-  res.send("products");
+  return res.send("products");
 });
 app.get("/api/items", (req, res) => {
-  res.send("Items");
+  return res.send("Items");
 });
 
 app.listen(5000, () => {
