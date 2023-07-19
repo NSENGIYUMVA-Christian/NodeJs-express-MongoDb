@@ -1,14 +1,18 @@
 const express = require("express");
 const logger = require("./logger");
+const authorize = require("./authorize");
 const app = express();
 
 // middle ware
 //req=>middleware=>res
 
-app.use("/api", logger);
+// passing multiple middleware
+app.use([logger, authorize]);
 
 app.get("/", (req, res) => {
-  res.send("Home");
+  console.log(req.user);
+  const { name } = req.user;
+  res.send(`Welcome back ${name}`);
 });
 app.get("/about", (req, res) => {
   res.send("About");
