@@ -3,12 +3,8 @@ const path = require("path");
 
 const app = express();
 
+// set up static and middleware
 app.use(express.static("./public"));
-
-// home
-app.get("/", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./navbar-app/index.html"));
-});
 
 // error
 app.get("*", (req, res) => {
