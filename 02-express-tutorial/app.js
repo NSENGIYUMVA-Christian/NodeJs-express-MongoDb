@@ -14,6 +14,19 @@ app.get("/api/products", (req, res) => {
   });
   res.json(newProducts);
 });
+//Sending product based on specified Id
+app.get("/api/products/:productId", (req, res) => {
+  // filtering data to send
+  const singleProduct = products.find((product) => {
+    return product.id === Number(req.params.productId);
+  });
+  if (!singleProduct) {
+    return res
+      .status(404)
+      .send(`Sorry,the products with ${req.params.productId} doesn't exist`);
+  }
+  res.json(singleProduct);
+});
 
 app.listen(5000, () => {
   console.log("Server is listening on port 5000");
