@@ -27,6 +27,11 @@ app.get("/api/products/:productId", (req, res) => {
   }
   res.json(singleProduct);
 });
+//Sending product based on specified reviews
+app.get("/api/products/:productId/reviews/:reviewId", (req, res) => {
+  // filtering data to send
+  res.send(`Here is the review with id of ${req.params.reviewId}`);
+});
 
 app.listen(5000, () => {
   console.log("Server is listening on port 5000");
