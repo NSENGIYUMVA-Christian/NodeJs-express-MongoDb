@@ -9,19 +9,14 @@ const {
   deletePerson,
 } = require("../controllers/people");
 
-// getting all data
-router.get("/", getPeople);
+// router.get("/", getPeople);
+// router.post("/", createPerson);
+// router.post("/postman", createPersonPostman);
+// router.put("/:id", updatePerson);
+// router.delete("/:id", deletePerson);
 
-// post method on js frontend request
-router.post("/", createPerson);
-
-// extra example to practice postman
-router.post("/postman", createPersonPostman);
-
-// put method (edit or updating data)
-router.put("/:id", updatePerson);
-
-// delete method
-router.delete("/:id", deletePerson);
-
+// Alternative approach
+router.route("/").get(getPeople).post(createPerson);
+router.route("/postman").post(createPersonPostman);
+router.route("/:id").put(updatePerson).delete(deletePerson);
 module.exports = router;
