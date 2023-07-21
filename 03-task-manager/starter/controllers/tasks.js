@@ -9,7 +9,7 @@ const createTask = async (req, res) => {
   res.status(201).json({ task });
 };
 const getTask = (req, res) => {
-  res.json({ id: req.params.id });
+  res.send("get single task");
 };
 const updateTask = (req, res) => {
   res.send("update task");
