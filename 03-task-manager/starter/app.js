@@ -3,6 +3,7 @@ const tasks = require("./routes/tasks");
 const connectDb = require("./db/connect");
 require("dotenv").config();
 const notFound = require("./middleware/not-found");
+const errorHandleMiddleware = require("./middleware/error-handler");
 
 const app = express();
 
@@ -18,6 +19,8 @@ app.use("/api/v1/tasks", tasks);
 //handling invalid url api request
 app.use(notFound);
 
+//handling errors when promise rejected
+app.use(errorHandleMiddleware);
 const port = 3000;
 
 const start = async () => {
