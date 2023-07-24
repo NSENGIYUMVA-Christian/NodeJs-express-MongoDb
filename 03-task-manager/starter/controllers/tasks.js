@@ -1,9 +1,16 @@
 const Task = require("../models/task");
 
-const getAllTasks = (req, res) => {
-  res.send("All items");
+/////////////////////// getting all tasks //////////////////
+const getAllTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find({});
+    res.status(200).json({ tasks });
+  } catch (error) {
+    res.status(500).json({ msg: "There was an internal server error" });
+  }
 };
 
+//////////////////////// Create task////////////////////
 const createTask = async (req, res) => {
   try {
     const task = await Task.create(req.body);
@@ -12,6 +19,8 @@ const createTask = async (req, res) => {
     res.status(500).json({ msg: "There was an internal server error" });
   }
 };
+
+//////////////////////// Get task////////////////////
 const getTask = (req, res) => {
   res.send("get single task");
 };
