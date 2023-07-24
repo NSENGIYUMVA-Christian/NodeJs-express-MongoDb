@@ -36,11 +36,6 @@ const getTask = async (req, res) => {
   }
 };
 
-////////////////////////Update task///////////////////////
-const updateTask = (req, res) => {
-  res.send("update task");
-};
-
 //////////////////////Delete task/////////////////////
 const deleteTask = async (req, res) => {
   try {
@@ -56,6 +51,27 @@ const deleteTask = async (req, res) => {
   } catch (error) {
     res.status(500).json({ msg: "There was an internal server error" });
   }
+};
+
+////////////////////////Update task///////////////////////
+const updateTask = async (req, res) => {
+  try {
+    const { id: taskID } = req.params;
+
+    const task = await Task.findOneAndUpdate({ _id: taskID }, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    // if incorrect id or id not provided
+    if (!task) {
+      return res.status(404).json({ msg: `no task with id : ${taskId}` });
+    }
+
+    res.status(200).json({ task });
+  } catch (error) {
+    res.status(500).json({ msg: "There was an internal server error" });
+  }
+  //res.send("update task");
 };
 
 module.exports = { getAllTasks, createTask, getTask, updateTask, deleteTask };
