@@ -21,12 +21,27 @@ const createTask = async (req, res) => {
 };
 
 //////////////////////// Get task////////////////////
-const getTask = (req, res) => {
-  res.send("get single task");
+const getTask = async (req, res) => {
+  try {
+    const { id: taskID } = req.params;
+    const task = await Task.findOne({ _id: taskID });
+    // if incorrect id or id not provided
+    if (!task) {
+      return res.status(404).json({ msg: `no task with id : ${taskID}` });
+    }
+
+    res.status(200).json({ task });
+  } catch (error) {
+    res.status(500).json({ msg: "There was an internal server error" });
+  }
 };
+
+////////////////////////Update task///////////////////////
 const updateTask = (req, res) => {
   res.send("update task");
 };
+
+//////////////////////Delete task/////////////////////
 const deleteTask = (req, res) => {
   res.send("delete task");
 };
