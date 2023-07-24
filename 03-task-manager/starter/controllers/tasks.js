@@ -74,4 +74,6 @@ const updateTask = async (req, res) => {
   //res.send("update task");
 };
 
+// the difference between put and patch is that by default put overwrites the db dta while patch change specified data only
+
 module.exports = { getAllTasks, createTask, getTask, updateTask, deleteTask };
