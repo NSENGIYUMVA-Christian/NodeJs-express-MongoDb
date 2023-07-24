@@ -5,6 +5,9 @@ const getAllTasks = async (req, res) => {
   try {
     const tasks = await Task.find({});
     res.status(200).json({ tasks });
+    // alternative response
+    // res.status(200).json({ tasks,amount:tasks.length });
+    // res.status(200).json({success:true, data:{tasks} });
   } catch (error) {
     res.status(500).json({ msg: "There was an internal server error" });
   }
