@@ -5,6 +5,9 @@ require("dotenv").config();
 
 const app = express();
 
+// middleware to run our static file(frontend app)
+app.use(express.static("./public"));
+
 //middleware to parse incoming json
 app.use(express.json());
 
