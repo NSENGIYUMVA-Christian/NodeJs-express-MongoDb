@@ -42,8 +42,20 @@ const updateTask = (req, res) => {
 };
 
 //////////////////////Delete task/////////////////////
-const deleteTask = (req, res) => {
-  res.send("delete task");
+const deleteTask = async (req, res) => {
+  try {
+    const { id: taskId } = req.params;
+    const task = await Task.findOneAndDelete({ _id: taskId });
+
+    // if incorrect id or id not provided
+    if (!task) {
+      return res.status(404).json({ msg: `no task with id : ${taskId}` });
+    }
+
+    res.status(200).json({ task });
+  } catch (error) {
+    res.status(500).json({ msg: "There was an internal server error" });
+  }
 };
 
 module.exports = { getAllTasks, createTask, getTask, updateTask, deleteTask };
