@@ -1,4 +1,5 @@
 const Task = require("../models/task");
+const { createCustomError } = require("../errors/custom-error");
 const asyncWrapper = require("../middleware/async");
 
 /////////////////////// getting all tasks //////////////////
@@ -14,12 +15,12 @@ const createTask = asyncWrapper(async (req, res) => {
 });
 
 //////////////////////// Get task////////////////////
-const getTask = asyncWrapper(async (req, res) => {
+const getTask = asyncWrapper(async (req, res, next) => {
   const { id: taskID } = req.params;
   const task = await Task.findOne({ _id: taskID });
   // if incorrect id or id not provided
   if (!task) {
-    return res.status(404).json({ msg: `no task with id : ${taskID}` });
+    return next(createCustomError(`no task with id : ${taskID}`, 404));
   }
   res.status(200).json({ task });
 });
@@ -30,7 +31,7 @@ const deleteTask = asyncWrapper(async (req, res) => {
   const task = await Task.findOneAndDelete({ _id: taskId });
   // if incorrect id or id not provided
   if (!task) {
-    return res.status(404).json({ msg: `no task with id : ${taskId}` });
+    return next(createCustomError(`no task with id : ${taskID}`, 404));
   }
   res.status(200).json({ task });
 });
@@ -45,7 +46,7 @@ const updateTask = asyncWrapper(async (req, res) => {
   });
   // if incorrect id or id not provided
   if (!task) {
-    return res.status(404).json({ msg: `no task with id : ${taskId}` });
+    return next(createCustomError(`no task with id : ${taskID}`, 404));
   }
   res.status(200).json({ task });
 });
