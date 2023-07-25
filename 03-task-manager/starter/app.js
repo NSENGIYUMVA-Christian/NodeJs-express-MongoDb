@@ -21,7 +21,9 @@ app.use(notFound);
 
 //handling errors when promise rejected
 app.use(errorHandleMiddleware);
-const port = 3000;
+
+// port variable
+const port = process.env.PORT || 3000;
 
 const start = async () => {
   try {
