@@ -6,14 +6,17 @@ const getAllProductsStatic = async (req, res) => {
 };
 
 const getAllProducts = async (req, res) => {
-  console.log(req.query);
-  const { featured } = req.query;
+  //console.log(req.query);
+  const { featured, company } = req.query;
   const queryObject = {};
-  console.log(queryObject);
-  if (featured) {
-    queryObject.featured = featured === true ? true : false;
-  }
 
+  if (featured) {
+    queryObject.featured = featured === "true" ? true : false;
+  }
+  if (company) {
+    queryObject.company = company;
+  }
+  console.log(queryObject);
   const products = await product.find(queryObject);
   res.status(200).json({ products, amountOfProducts: products.length });
 };
