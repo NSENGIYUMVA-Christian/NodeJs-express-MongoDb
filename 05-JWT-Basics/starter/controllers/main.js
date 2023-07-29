@@ -1,14 +1,28 @@
+//require("dotenv").config();
+
+//importing jwt
+const jwt = require("jsonwebtoken");
+
+// custom error
 const CustomAPIError = require("../errors/custom-error");
 
 const login = async (req, res) => {
   const { username, password } = req.body;
-  //console.log(username, password);
+
   // check if username not provided
   if (!username || !password) {
     throw new CustomAPIError("PLease provide email and password", 400);
   }
 
-  res.send(" Fake Login/Register/Signup Route");
+  // id all value are provided
+  // temp id
+  const id = new Date().getDate();
+
+  const token = jwt.sign({ id, username }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
+
+  res.status(200).json({ msg: "user created", token });
 };
 
 const dashboard = async (req, res) => {
