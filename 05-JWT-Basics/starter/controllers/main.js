@@ -1,11 +1,12 @@
 const jwt = require("jsonwebtoken");
+const { BadRequest } = require("../errors");
 
 const login = async (req, res) => {
   const { username, password } = req.body;
 
   // check if username not provided
   if (!username || !password) {
-    throw new CustomAPIError("PLease provide email and password", 400);
+    throw new BadRequest("PLease provide email and password");
   }
 
   // id all value are provided
@@ -20,7 +21,6 @@ const login = async (req, res) => {
 };
 
 const dashboard = async (req, res) => {
-  console.log(req.user);
   const luckyNumber = Math.floor(Math.random() * 100);
   res.status(200).json({
     msg: `Hello ${req.user.username}`,
