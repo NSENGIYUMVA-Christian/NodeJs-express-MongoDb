@@ -1,11 +1,15 @@
 const User = require("../models/User");
 const { StatusCodes } = require("http-status-codes");
+const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   //create a new user
-
   const user = await User.create({ ...req.body });
-  res.status(StatusCodes.CREATED).json({ success: true, data: user });
+  const token = jwt.sign({ userId: user._id, name: user.name }, "jwtsecret", {
+    expiresIn: "30d",
+  });
+  // send token
+  res.status(StatusCodes.CREATED).json({ user: { name: user.name }, token });
 };
 const login = async (req, res) => {
   res.send("login user");
