@@ -6,7 +6,7 @@ const auth = async (req, res, next) => {
   //check header and Bearer
   const authHeader = req.headers.authorization;
   // if not header
-  if (!authHeader || authHeader.startsWith("Bearer")) {
+  if (!authHeader || !authHeader.startsWith("Bearer")) {
     throw new UnauthenticatedError("Authentication invalid");
   }
   //if there is correct header
