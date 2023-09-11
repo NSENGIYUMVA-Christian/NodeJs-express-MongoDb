@@ -24,12 +24,13 @@ const userSchema = mongoose.Schema({
   },
 });
 
-// mongoose middleware
+// mongoose middleware, hashing password before
 userSchema.pre("save", async function () {
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
 
+// schema instances , a function to generate token
 userSchema.methods.createJWT = function () {
   return jwt.sign(
     { userId: this._id, name: this.name },
@@ -38,6 +39,12 @@ userSchema.methods.createJWT = function () {
       expiresIn: process.env.JWT_LIFETIME,
     }
   );
+};
+
+// schema instances , a function to compare password
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  const isMatch = await bcrypt.compare(candidatePassword, this.password);
+  return isMatch;
 };
 
 // exports
