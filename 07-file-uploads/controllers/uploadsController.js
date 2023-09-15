@@ -51,9 +51,9 @@ const uploadProductImage = async (req, res) => {
       timestamp,
     }
   );
-  // delete temp if we success
+  // delete temp files if we success
   fs.unlinkSync(req.files.image.tempFilePath);
-
+  // return to front end
   return res.status(StatusCodes.OK).json({ image: { scr: result.secure_url } });
 };
 
