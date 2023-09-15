@@ -4,6 +4,8 @@ const Product = require("../models/Product");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
 const cloudinary = require("cloudinary").v2;
+//import to remove temp in if we successfully uploaded images to cloud
+const fs = require("fs");
 
 // local uploads
 const uploadProductImageLocal = async (req, res) => {
@@ -49,6 +51,9 @@ const uploadProductImage = async (req, res) => {
       timestamp,
     }
   );
+  // delete temp if we success
+  fs.unlinkSync(req.files.image.tempFilePath);
+
   return res.status(StatusCodes.OK).json({ image: { scr: result.secure_url } });
 };
 
