@@ -2,10 +2,11 @@ const path = require("path");
 
 const Product = require("../models/Product");
 const { StatusCodes } = require("http-status-codes");
-
 const CustomError = require("../errors");
+const cloudinary = require("cloudinary").v2;
 
-const uploadProductImage = async (req, res) => {
+// local uploads
+const uploadProductImageLocal = async (req, res) => {
   // check if file exist
   if (!req.files) {
     throw new CustomError.BadRequestError("No file uploaded");
@@ -35,6 +36,20 @@ const uploadProductImage = async (req, res) => {
   res
     .status(StatusCodes.OK)
     .json({ image: { src: `/uploads/${productImage.name}` } });
+};
+
+// upload on cloud
+const uploadProductImage = async (req, res) => {
+  const timestamp = Date.now();
+  const result = await cloudinary.uploader.upload(
+    req.files.image.tempFilePath,
+    {
+      use_filename: true,
+      folder: "file-upload-proj",
+      timestamp,
+    }
+  );
+  return res.status(StatusCodes.OK).json({ image: { scr: result.secure_url } });
 };
 
 module.exports = { uploadProductImage };

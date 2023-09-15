@@ -24,7 +24,7 @@ const errorHandlerMiddleware = require("./middleware/error-handler");
 // allowing to get req.body and getting files path
 app.use(express.static("./public"));
 app.use(express.json());
-app.use(fileUpload());
+app.use(fileUpload({ useTempFiles: true }));
 // routes
 app.get("/", (req, res) => {
   res.send("<h1>File Upload Starter</h1>");
