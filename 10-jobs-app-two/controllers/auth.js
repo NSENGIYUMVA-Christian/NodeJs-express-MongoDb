@@ -16,12 +16,18 @@ const login = async (req, res) => {
   }
   // check user if exist in DB
   const user = await User.findOne({ email });
-  // compare password
 
   //if no user
   if (!user) {
     throw new UnauthenticatedError("invalid credentials");
   }
+  // compare password
+  const isPasswordCorrect = await user.comparePassword(password);
+  //if password incorrect
+  if (!isPasswordCorrect) {
+    throw new UnauthenticatedError("invalid credentials");
+  }
+  //if user exist
   const token = user.createJWT();
   res.status(StatusCodes.OK).json({ user: { name: user.name }, token });
 };
