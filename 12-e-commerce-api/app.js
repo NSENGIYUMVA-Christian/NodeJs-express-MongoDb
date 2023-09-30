@@ -6,13 +6,18 @@ require("express-async-errors");
 //importing express
 const express = require("express");
 const app = express();
+
+// rest of the packages
+const morgan = require("morgan");
+
 // connect to DATABASE import
 const connectDb = require("./db/connect");
 //middleware imports
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
-//express middleware
+//pre middlewares
+app.use(morgan("tiny"));
 app.use(express.json());
 
 // routes
