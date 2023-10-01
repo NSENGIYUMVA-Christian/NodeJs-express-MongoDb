@@ -9,6 +9,7 @@ const app = express();
 
 // rest of the packages
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
 // routers imports
 const authRouter = require("./routers/authRoutes");
 // connect to DATABASE import
@@ -20,10 +21,17 @@ const errorHandlerMiddleware = require("./middleware/error-handler");
 //pre middlewares
 app.use(morgan("tiny"));
 app.use(express.json());
+app.use(cookieParser());
 
 // main routers
 app.get("/", (req, res) => {
+  console.log(req.cookies);
   res.send("e-commerce -app proj");
+});
+//test route
+app.get("/api/v1", (req, res) => {
+  console.log(req.cookies);
+  res.send("console cookies");
 });
 app.use("/api/v1/auth", authRouter);
 
