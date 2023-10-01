@@ -15,9 +15,14 @@ const register = async (req, res) => {
   // create a token
   const tokenUser = { name: user.name, userId: user._id, role: user.role };
   const token = createJwt({ payload: tokenUser });
-
+  // send cookie
+  const oneDay = 1000 * 60 * 60 * 24;
+  res.cookie("token", token, {
+    httpOnly: true,
+    expires: new Date(Date.now() + oneDay),
+  });
   // main return
-  res.status(StatusCodes.CREATED).json({ user: tokenUser, token });
+  res.status(StatusCodes.CREATED).json({ user: tokenUser });
 };
 
 ///////////////login user///////////
