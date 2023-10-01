@@ -1,18 +1,25 @@
 const User = require("../model/User");
 const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors");
-
+const jwt = require("jsonwebtoken");
 ////////////////register user///////////
 const register = async (req, res) => {
-  const { email } = req.body;
+  const { name, email, password } = req.body;
   //check if email exist
-  const emailAlreadyExist = await User.findOne({ email });
+  const emailAlreadyExist = await User.findOne({ name, email, password });
   if (emailAlreadyExist) {
     throw new CustomError.BadRequestError("Email already exist");
   }
-
+  // create user in DB
   const user = await User.create(req.body);
-  res.status(StatusCodes.CREATED).json({ user });
+  // create a token
+  const tokenUser = { name: user.name, userId: user._id, role: user.role };
+  const token = jwt.sign(tokenUser, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_LIFETIME,
+  });
+
+  // main return
+  res.status(StatusCodes.CREATED).json({ user: tokenUser, token });
 };
 
 ///////////////login user///////////
