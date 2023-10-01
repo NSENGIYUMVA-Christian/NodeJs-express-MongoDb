@@ -9,7 +9,8 @@ const app = express();
 
 // rest of the packages
 const morgan = require("morgan");
-
+// routers imports
+const authRouter = require("./routers/authRoutes");
 // connect to DATABASE import
 const connectDb = require("./db/connect");
 //middleware imports
@@ -20,10 +21,11 @@ const errorHandlerMiddleware = require("./middleware/error-handler");
 app.use(morgan("tiny"));
 app.use(express.json());
 
-// routes
+// main routers
 app.get("/", (req, res) => {
   res.send("e-commerce -app proj");
 });
+app.use("/api/v1/auth", authRouter);
 
 //not found url middleware
 app.use(notFoundMiddleware);
