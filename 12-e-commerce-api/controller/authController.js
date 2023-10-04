@@ -23,7 +23,31 @@ const register = async (req, res) => {
 
 ///////////////login user///////////
 const login = async (req, res) => {
-  res.send("login user");
+  // destructure email and password
+  const { email, password } = req.body;
+  //check is all provided
+  if (!email || !password) {
+    throw new CustomError.BadRequestError("Please provide email and password");
+  }
+  //if all provided, the check user from db
+  const user = await User.findOne({ email });
+  //if there is no user
+  if (!user) {
+    throw new CustomError.UnauthenticatedError("invalid credentials");
+  }
+  //compare password
+  const isPasswordCorrect = await user.comparePassword(password);
+  if (!isPasswordCorrect) {
+    throw new CustomError.UnauthenticatedError("invalid credentials");
+  }
+  //if the pw correct, create token and attach the cookie
+  // create a token
+  const tokenUser = { name: user.name, userId: user._id, role: user.role };
+
+  // send response and cookie
+  attachCookiesToResponse({ res, user: tokenUser });
+  // main return
+  res.status(StatusCodes.CREATED).json({ user: tokenUser });
 };
 
 ///////////////logout user///////////
