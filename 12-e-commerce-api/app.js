@@ -12,6 +12,7 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 // routers imports
 const authRouter = require("./routers/authRoutes");
+const userRouter = require("./routers/userRoutes");
 // connect to DATABASE import
 const connectDb = require("./db/connect");
 //middleware imports
@@ -33,6 +34,7 @@ app.get("/api/v1", (req, res) => {
   res.send("console cookies");
 });
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/users", userRouter);
 
 //not found url middleware
 app.use(notFoundMiddleware);
